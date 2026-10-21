@@ -1,0 +1,27 @@
+body{
+    background: #aefbfc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    margin: 0;
+}
+h1{
+    position: absolute;
+    top: 0;
+}
+#task{
+background: #fafbfb;
+border-radius: 7px;
+padding: 1rem;
+
+}
+
+button{
+    padding: 0.2rem 1.5rem;
+    background: #54a3e3;
+    border-radius: 50px;
+}
+button:hover{
+    background: #057dee;
+}
