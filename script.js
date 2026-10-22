@@ -1,4 +1,5 @@
 let tasks=[];
+let currentFilter = "all";
 //diplay task function
 function displayTask(taskList){ //added tasklist param so we can display what we want not always the whole array
 let listContent="";
@@ -6,21 +7,37 @@ for(let i=0;i<taskList.length;i++){ //changed from task length to task list
 
     //listContent+="<li>"+taskList[i]+`<button onClick="deleteTask(${i})">X</button></li>`; //each task in list form    
 let task=taskList[i]; //to get current task obj
+let taskIndex = tasks.indexOf(task); // use original tasks indes when displaying
 let date=new Date(task.createdAt).toLocaleDateString(); //readable format
 
-listContent +="<li>"+ task.title  
+listContent +="<li>"+ (task.completed?"<s>"+task.title +"</s>" : task.title) //<s> in html puts line on text
 +"<small>Priority: "+ task.priority +"</small>"
 +"<small>Created:" +date +"</small>"
-+`<button onclick="editTask(${i})">Edit</button>`
-+ `<button onclick="editpriority(${i})">Edit Priority</button>`
-+`<button onClick="deleteTask(${i})">X</button></li>`
-+`<button onclick="toggleTask(${i})">${
++`<button onclick="editTask(${taskIndex})">Edit</button>`
++ `<button onclick="editpriority(${taskIndex})">Edit Priority</button>`
++`<button onClick="deleteTask(${taskIndex})">X</button></li>`
++`<button onclick="toggleTask(${taskIndex})">${
     task.completed ? "Mark Pending" : "Mark Complete"
 }</button>`
-
-
 }
-document.getElementById("list").innerHTML=listContent;
+if (taskList.length === 0) {
+    let message="";
+
+    if(currentFilter==="all"){
+        message="No tasks yet";
+    }
+    else if(currentFilter==="pending"){
+        message="No pending task";
+    }
+    else if (currentFilter === "completed") {
+        message = "You haven't completed anything";
+    }
+
+    document.getElementById("list").innerHTML =
+    "<li>" + message + "</li>";
+} else {
+    document.getElementById("list").innerHTML = listContent;
+}
 }
 
 let taskInput=document.getElementById("task");
@@ -54,6 +71,7 @@ function addTask(){
     //because first add then save then display all together on ui
     saveTask();
     displayTask(tasks);
+    updateStats();
 }
 
 //save task function
@@ -98,8 +116,6 @@ function editpriority(i){
     displayTask(tasks);
 }
 
-
-
 //delete fucntion
 function deleteTask(i){  //to tell which function to delete so i as param
 let confirmDelete= confirm("sure! to delete task");
@@ -112,9 +128,12 @@ if(confirmDelete){
 }
 
 function deleteAll(){
+    let confirmDelete = confirm("Are you sure you want to delete ALL tasks?");
+if(confirmDelete){
     tasks=[];
     saveTask();
     displayTask(tasks);
+}
 }
 
 //load task function: when close browser and wants the previous data
@@ -130,6 +149,7 @@ displayTask(tasks);
 
 //filter task function
 function filterTask(status){
+    currentFilter=status;
 if(status==="all"){
     displayTask(tasks);
 }
@@ -142,6 +162,36 @@ else if(status==="completed"){
     let completedTasks=tasks.filter(task=>task.completed===true);
     displayTask(completedTasks);
 }
+}
+
+//togglr function to mark complete or pending
+function toggleTask(i){
+    tasks[i].completed=!tasks[i].completed;
+    saveTask();
+    displayTask(tasks);
+}
+
+//clear completed
+function clearCompleted(){
+    let confirmClear=confirm("Are you sure you want to delete all completed tasks?");
+
+    if(confirmClear){
+        tasks=tasks.filter(task=>task.completed===false);
+        
+        saveTask();
+        displayTask(tasks);
+    }
+}
+
+//statistics
+function updateStats(){
+    let total=tasks.length;
+    let completed=tasks.filter(task=>task.completed===true).length;
+    let pending=tasks.filter(task=>task.completed===false).length;
+
+    document.getElementById("totalTasks").textContent=total;
+    document.getElementById("completedTasks").textContent=completed;
+    document.getElementById("pendingTasks").textContent=pending;
 }
 
 

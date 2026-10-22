@@ -13,8 +13,14 @@
      <button id="button1" onClick="addTask()">Add</button>
      <ul id="list"></ul>
 
-     <!--for priority -->
+     <div>
+        <p>Total Tasks:<span id ="totalTasks">0</span></p>
+        <p>Completed:<span id ="completedTasks">0</span></p>
+        <p>Pending:<span id ="pendingTasks">0</span></p>
+     </div>
 
+
+     <!--for priority -->
     <select id="priority">
     <option value="High">High</option>
     <option value="Medium" selected>Medium</option>
@@ -22,12 +28,12 @@
     </select>
 
      <button onclick="filterTask('all')">All</button>
-     <button onclick="filterTask('pending')">All</button>
-     <button onclick="filterTask('completed')">All</button>
+     <button onclick="filterTask('pending')">Pending</button>
+     <button onclick="filterTask('completed')">Completed</button>
 
      <button onclick="clearCompleted()">Clear completed</button>
      <button onClick="deleteAll()">Delete All tasks</button>
-     <button onClick="filterTask()">Filter</button>
+    
      </div>
      <script src="script.js"></script>
 </body>
