@@ -1,15 +1,27 @@
 let tasks=[];
 //diplay task function
-function displayTask(){
+function displayTask(taskList){ //added tasklist param so we can display what we want not always the whole array
 let listContent="";
-for(let i=0;i<tasks.length;i++){
-listContent+="<li>"+tasks[i]+`<button onClick="deleteTask(${i})">X</button></li>`; //each task in list form    
+for(let i=0;i<taskList.length;i++){ //changed from task length to task list
+
+    //listContent+="<li>"+taskList[i]+`<button onClick="deleteTask(${i})">X</button></li>`; //each task in list form    
+let task=taskList[i]; //to get current task obj
+let date=new Date(task.createdAt).toLocaleDateString(); //readable format
+
+listContent +="<li>"+ task.title  
++"<small>Priority: "+ task.priority +"</small>"
++"<small>Created:" +date +"</small>"
++`<button onClick="deleteTask(${i})">X</button></li>`
+
+
 }
 document.getElementById("list").innerHTML=listContent;
 }
 
 let taskInput=document.getElementById("task");
-//on enter submission of task
+let priorityInput = document.getElementById("priority");
+
+//on enter : submission of task
     taskInput.addEventListener("keypress",function(event){
     if(event.key === "Enter"){
         //event.preventDefault(); //cancels the default action if needed
@@ -20,16 +32,22 @@ let taskInput=document.getElementById("task");
 //add task function
 function addTask(){
   
-    let text=taskInput.value;
+    let text=taskInput.value.trim(); //to remove spaces from beginning and end
     
-    if(text===""){
+    if(text===""){ // if input is empty
         return;
     }
-    tasks.push(text);
+
+    let task={
+        title: text,
+        createdAt: new Date().toISOString(),
+        priority:priorityInput.value
+    };
+    tasks.push(task);
     taskInput.value="";
     //because first add then save then display all together on ui
     saveTask();
-    displayTask();
+    displayTask(tasks);
 }
 
 //save task function
@@ -43,12 +61,12 @@ function saveTask(){
 function deleteTask(i){  //to tell which function to delete so i as param
 tasks.splice(i,1);//at ith index remove 1 element
 saveTask();
-displayTask();
+displayTask(tasks);
 }
 function deleteAll(){
     tasks=[];
     saveTask();
-    displayTask();
+    displayTask(tasks);
 }
 
 //load task function: when close browser and wants the previous data
@@ -59,10 +77,15 @@ if(saved!==null){
 }
 }
 loadTask();
-displayTask();
+displayTask(tasks);
 //function to delete all
 
 //filter task function
-function filterTasks(){
+function filterTask(){
 
 }
+
+
+
+
+

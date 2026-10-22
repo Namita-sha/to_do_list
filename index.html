@@ -12,7 +12,17 @@
      <input id="task" placeholder="add task here">
      <button id="button1" onClick="addTask()">Add</button>
      <ul id="list"></ul>
+
+     <!--for priority -->
+     
+    <select id="priority">
+    <option value="High">High</option>
+    <option value="Medium" selected>Medium</option>
+    <option value="Low">Low</option>
+    </select>
+
      <button onClick="deleteAll()">Delete All tasks</button>
+     <button onClick="filterTask()">Filter</button>
      </div>
      <script src="script.js"></script>
 </body>
