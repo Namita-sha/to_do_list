@@ -11,7 +11,12 @@ let date=new Date(task.createdAt).toLocaleDateString(); //readable format
 listContent +="<li>"+ task.title  
 +"<small>Priority: "+ task.priority +"</small>"
 +"<small>Created:" +date +"</small>"
++`<button onclick="editTask(${i})">Edit</button>`
++ `<button onclick="editpriority(${i})">Edit Priority</button>`
 +`<button onClick="deleteTask(${i})">X</button></li>`
++`<button onclick="toggleTask(${i})">${
+    task.completed ? "Mark Pending" : "Mark Complete"
+}</button>`
 
 
 }
@@ -41,7 +46,8 @@ function addTask(){
     let task={
         title: text,
         createdAt: new Date().toISOString(),
-        priority:priorityInput.value
+        priority:priorityInput.value,
+        completed: false
     };
     tasks.push(task);
     taskInput.value="";
@@ -55,14 +61,56 @@ function saveTask(){
     localStorage.setItem("tasks",JSON.stringify(tasks)); //setItem:saves data(localStrogae stor data in strings)
 }
 
+//edit task
+function editTask(i){
+let newTitle=prompt("edit the task",tasks[i].title);
+if(newTitle===null){
+    return;
+}
+newTitle=newTitle.trim();
+
+if(newTitle===""){
+    alert("task can't be empty");
+    return;
+}
+tasks[i].title=newTitle;
+saveTask();
+displayTask(tasks);
+}
+
+//edit prority function
+function editpriority(i){
+    let newPriority=prompt("enter priority",tasks[i].priority);
+
+    if(newPriority===null){
+        return;
+    }
+
+    newPriority=newPriority.trim().toLowerCase();
+
+    if(!["high","medium","low"].includes(newPriority)){
+        alert("Please enter High,Medium, or Low");
+        return;
+    }
+
+    tasks[i].priority=newPriority.charAt(0).toUpperCase() +newPriority.slice(1); //convert char to uppercase "H" + "igh" so splice
+    saveTask();
+    displayTask(tasks);
+}
+
 
 
 //delete fucntion
 function deleteTask(i){  //to tell which function to delete so i as param
-tasks.splice(i,1);//at ith index remove 1 element
-saveTask();
-displayTask(tasks);
+let confirmDelete= confirm("sure! to delete task");
+
+if(confirmDelete){
+    tasks.splice(i,1);//at ith index remove 1 element
+    saveTask();
+    displayTask(tasks);
 }
+}
+
 function deleteAll(){
     tasks=[];
     saveTask();
@@ -81,8 +129,19 @@ displayTask(tasks);
 //function to delete all
 
 //filter task function
-function filterTask(){
+function filterTask(status){
+if(status==="all"){
+    displayTask(tasks);
+}
 
+else if(status==="pending"){
+    let pendingTasks=tasks.filter(task=>task.completed===false);
+    displayTask(pendingTasks);
+}
+else if(status==="completed"){
+    let completedTasks=tasks.filter(task=>task.completed===true);
+    displayTask(completedTasks);
+}
 }
 
 

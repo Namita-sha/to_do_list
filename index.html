@@ -14,13 +14,18 @@
      <ul id="list"></ul>
 
      <!--for priority -->
-     
+
     <select id="priority">
     <option value="High">High</option>
     <option value="Medium" selected>Medium</option>
     <option value="Low">Low</option>
     </select>
 
+     <button onclick="filterTask('all')">All</button>
+     <button onclick="filterTask('pending')">All</button>
+     <button onclick="filterTask('completed')">All</button>
+
+     <button onclick="clearCompleted()">Clear completed</button>
      <button onClick="deleteAll()">Delete All tasks</button>
      <button onClick="filterTask()">Filter</button>
      </div>
