@@ -1,27 +1,93 @@
 body{
-    background: #aefbfc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60vh;
-    margin: 0;
+   font-family:Arial, Helvetica, sans-serif;
+   background:#09b5ee;
+   margin: 0;
+   padding: 30px 16px;
+   color:#050974;
 }
 h1{
-    position: absolute;
-    top: 0;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+.container{
+    background: #e8d6ec;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #1a779b;
+    border-radius: 8px;
 }
 #task{
-background: #fafbfb;
+width:55%;
 border-radius: 7px;
-padding: 1rem;
+padding: 10px;
+border:1px ;
 
+}
+select{
+    padding: 9px;
+    border:1px ;
+    border-radius: 5px;
+    background: #9accee;
 }
 
 button{
-    padding: 0.2rem 1.5rem;
-    background: #54a3e3;
-    border-radius: 50px;
+    padding: 8px 12px;
+    margin: 4px 2px;
+    background: #9accee;
+    border: 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #03025b;
 }
 button:hover{
-    background: #057dee;
+    background: #6163c8;
+}
+
+#list{
+    padding-left:22px;
+}
+
+#list li{
+    padding: 12px 0;
+    border-bottom:1px;
+    overflow-wrap:anywhere;
+}
+
+small{
+    display:inline-block;
+    margin:6px;
+    color:#8089c7;
+}
+
+#stats{
+    margin: 18px 0;
+    padding: 10px 14px;
+    background: #a4daf5;
+    border: 1px;
+    border-radius: 5px;
+}
+
+#stats p{
+    margin: 6px 0;
+}
+
+@media (max-width: 600px) {
+    .container{
+        padding: 16px;
+    }
+
+#task{
+    width: 100%;
+    margin-bottom: 8px;
+    }
+
+select{
+    margin-bottom: 8px;
+    }
+
+button{
+    padding: 8px 10px;
+}
 }
